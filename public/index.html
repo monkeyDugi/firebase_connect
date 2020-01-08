@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase.js"></script>
+  </head>
+  <body>
+    파이어베이스 헬로!!!!
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "본인",
+        authDomain: "본인.firebaseapp.com",
+        databaseURL: "https://본인.firebaseio.com",
+        projectId: "본인",
+        storageBucket: "본인",
+        messagingSenderId: "본인",
+        appId: "본인",
+        measurementId: "본인"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      var database = firebase.database()
+      // 매번 데이터를 최신으로 초기화 한다.
+      database.ref('test/').set({"name": "테스트2", "intro": "인삿말"})
+      database.ref('test/').set({"name": "테스트1", "intro": "333"})
+      // 매번 고유 키를 생성하여 그 밑에 데이터를 넣는다.
+      database.ref('test/').push({"name": "테스트2", "intro": "인삿말"})
+      database.ref('test/').push({"name": "테스트3", "거주지": "방화"})
+
+      // 데이터 읽기
+      var dataTestRef = database.ref('test/')
+      dataTestRef.on('child_added', function (data) {
+        console.log(data.val())
+      })
+
+      // 데이터 수정
+      // push로 생성했을 때 생긴 key값을 가져와서 수정
+      dataTestRef = database.ref('test/')
+      dataTestRef.on('child_added', function (data) {
+        console.log(data.val(), 'key: ', data.key)
+      })
+      
+      dataTestRef = database.ref('test/-Ly4P4C_QVovB2-0Wc-7').update({
+        거주지: '가양2동'
+      })
+
+      // 수정과 같이 키값을 가지고 삭제한다.
+      dataTestRef = database.ref('test/-Ly4P4C_QVovB2-0Wc-7').remove()
+    </script>
+  </body>
+</html>
